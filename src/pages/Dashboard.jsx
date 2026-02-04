@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Store, ShoppingBag, Users, ShoppingCart, TrendingUp } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { Link } from 'react-router-dom';
-import { storeService, productService, orderService, userService } from '../services/api';
+import { storeService, productService, orderService, userService, getApiConfig } from '../services/api';
 
 const StatCard = ({ title, value, icon: Icon, to, color }) => (
     <Link to={to} className="block group">
@@ -24,6 +24,7 @@ const Dashboard = () => {
     const [counts, setCounts] = useState({ stores: 0, products: 0, orders: 0, users: 0 });
     const [recentOrders, setRecentOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiConfig = getApiConfig();
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -116,6 +117,16 @@ const Dashboard = () => {
                     </CardContent>
                 </Card>
             </div>
+
+            <Card className="bg-slate-800/30 border-slate-700">
+                <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-white mb-2">System Information</h3>
+                    <div className="flex items-center gap-2 text-slate-400">
+                        <span className="font-medium text-slate-300">API Endpoint:</span>
+                        <code className="bg-slate-900 px-2 py-1 rounded text-sm text-primary font-mono">{apiConfig.baseURL}</code>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 };
